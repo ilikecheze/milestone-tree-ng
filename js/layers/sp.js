@@ -622,7 +622,7 @@ addLayer("sp", {
 			},
 			name: "Milestone Dilation",
 			completionLimit() {
-				let comps = new Decimal(0)
+				let comps = new Decimal(1)
 				return comps
 			},
 			challengeDescription() { return "<br>Points and prestige points gain is slog(1.15). Also unlocks more in-challenge Perk Upgrades." },
@@ -676,6 +676,9 @@ addLayer("sp", {
 		rows: 1,
 		cols: 2,
 		11: {
+			ifNotify() {
+				return (!player.m.best.gte(83))
+			},
 			title() {
 				return "<h3 class='sr'>Prestige Multiplier</h3>";
 			},
@@ -728,6 +731,9 @@ addLayer("sp", {
 			},
 		},
 		12: {
+			ifNotify() {
+				return (!player.m.best.gte(130))
+			},
 			title() {
 				return "<h3 class='sr'>Softcap Delayer</h3>";
 			},

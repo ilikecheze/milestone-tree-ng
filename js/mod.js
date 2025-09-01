@@ -23,6 +23,10 @@ Note: v<h3 style="color: green">A</h3>.<h3 style='color: blue'>B</h3><h3 style='
 <h3 style='color: green'>A</h3> is a number of <h3 style='color:yellow'>major</h3> updates like <h3 class='pmr'>Prestige Milestone Tree</h3>, <br>
 <h3 style='color: blue'>B</h3> is a number of <h3 style="color:#793784">milestones</h3> in current version, <br>
 <h3 style='color: yellow'>C</h3> is a letter that used to show <h3 style='color: cyan'>bugfix/rebalance</h3> updates<br><br>
+<h3 style='color:white'> v2.045.1 - Glow layer fixes</h3><br>
+<span style='color: #808080'>- Removed the glow on layers when the buyables (that are automated) can be bought<br></span>
+<span style='color: #808080'>- Added a glow on exploring layer that appear when you can get a feature on any zone<br></span>
+<span style='color: #808080'>- With an addition to the glow on exploring layer, in the description there will appear a text, saying on which zones you can get a new feature<br></span>
 <h3 class="exp"> v2.044 - Explorations Revamp</h3><br>
 <span style='color: #808080'>- Full Rework of Explorations grid mechanic<br></span>
 <span style='color: #808080'>- More Minor Bugfixes<br></span>

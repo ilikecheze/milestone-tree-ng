@@ -439,6 +439,9 @@ addLayer("p", {
 		rows: 1,
 		cols: 3,
 		11:{
+			ifNotify() {
+				return (!player.m.best.gte(124))
+			},
 			title(){
 				return "<h3 class='pr'>Softcap Delayer</h3>";
 			},
@@ -492,6 +495,9 @@ addLayer("p", {
 			  }, 
 		},
 		12:{
+			ifNotify() {
+				return (!player.m.best.gte(124))
+			},
 			title(){
 				return "<h3 class='ef'>Exotic</h3> <h3 class='pr'>Booster</h3>";
 			},

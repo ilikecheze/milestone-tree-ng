@@ -1,3 +1,4 @@
+var checkFeatureObtainable=[]
 function checkFeatureDot(dot = "") {
 	if (dot == `(${tmp.ex.xGoal};${tmp.ex.yGoal})`) {
 		switch (player.ex.zone) {
@@ -15,6 +16,137 @@ function checkFeatureDot(dot = "") {
 				break
 		}
 	}
+}
+function xMoveCost(x, checkedZone='') {
+				let cost = Decimal.pow(10, x.add(1).mul(11.76))
+				switch (checkedZone!=undefined?checkedZone:player.ex.zone) {
+					case "a":
+						cost = Decimal.pow(10, x.add(1).mul(11.76))
+						break
+					case "a-02":
+						cost = Decimal.pow(17, x.add(1).mul(22.6))
+						break
+					case "a-03":
+						cost = Decimal.pow(15, x.add(1).mul(8.6))
+						break
+					case "b-01":
+						cost = Decimal.pow(15, x.add(1).mul(23.6))
+						break
+				}
+				return cost
+			}
+function yMoveCost(x, checkedZone='') {
+				let cost = Decimal.pow(2, x.add(1).mul(3.76))
+				switch (checkedZone!=undefined?checkedZone:player.ex.zone) {
+					case "a":
+						cost = Decimal.pow(2, x.add(1).mul(3.76))
+						break
+					case "a-02":
+						cost = Decimal.pow(6, x.mul(3.25).add(1))
+						break
+					case "a-03":
+						cost = Decimal.pow(8, x.mul(2.65).add(1))
+						break
+					case "b-01":
+						cost = Decimal.pow(5, x.mul(2.75).add(1))
+						break
+				}
+				return cost
+			}
+function xGoalCheck(checkedZone="") {
+		let goal = new Decimal(8)
+		switch (checkedZone!=undefined?checkedZone:player.ex.zone) {
+			case "a":
+				x = new Decimal(player.ex.dotUnl)	
+				goal = new Decimal(8)
+				if (x < 2) goal = goal.add(x)
+				if (x >= 2) goal = goal.add(x.add(1).mul(1.15)).floor()
+				break
+			case "a-02":
+				x = player.ex.a2Unl
+				goal = new Decimal(3)
+				goal = goal.add(x)
+				if (x==1) goal = new Decimal(2)
+				break
+			case "a-03":
+				x = player.ex.a3Unl
+				goal = new Decimal(2)
+				goal = goal.add(x)
+				if (player.ex.a3Unl>=2) goal = new Decimal(2).add(x*2)
+				break
+			case "b-01":
+				x = new Decimal(player.ex.b1Unl)
+				goal = new Decimal(4)
+				goal = goal = goal.add(x.add(1).mul(1.15)).floor()
+				if (x.gte(1)) goal = new Decimal(1)
+				break
+		}
+		return goal
+	}
+function yGoalCheck(checkedZone="") {
+		let goal = new Decimal(4)
+		switch (checkedZone!=undefined?checkedZone:player.ex.zone) {
+			case "a":
+				x = new Decimal(player.ex.dotUnl)
+				if (x < 2) goal = goal.add(x)
+				if (x >= 2) goal = goal.add(x.add(1).mul(1.25)).floor()
+				break
+			case "a-02":
+				x = new Decimal(player.ex.a2Unl)
+				goal = new Decimal(2)
+				goal = goal.add(x)
+				if (player.ex.a2Unl>=1) goal = goal.add(2)
+				break
+			case "a-03":
+				x = new Decimal(player.ex.a3Unl)
+				goal = new Decimal(5)
+				goal = goal.add(x)
+				if (player.ex.a3Unl>=2) goal = new Decimal(5).add(Math.floor(x*1.5))
+				break
+			case "b-01":
+				x = new Decimal(player.ex.b1Unl)
+				goal = new Decimal(4)
+				goal = goal.add(x.add(1).mul(1.15)).floor()
+				break
+		}
+		return goal
+	}
+function calcFeatureBuyable() {
+let zones=['a','a-02','a-03','b-01']
+let checkIf=[['a',false],['a-02',false],['a-03',false],['b-01',false]]
+let counter = 0
+let checkPopup=false
+for (i of zones) {
+	let X = xGoalCheck(i)
+	let Y = yGoalCheck(i)
+	let xCost = new Decimal(0)
+	let yCost = new Decimal(0)
+	for (c=0; c<X; c++) {
+		xCost=xCost.add(xMoveCost(new Decimal(c),i))
+	}
+	for (c=0; c<Y; c++) {
+		yCost=yCost.add(yMoveCost(new Decimal(c),i))
+	}
+
+	if (player.cp.formatted.gte(yCost)&&player.pm.essence.gte(xCost)) {
+		checkPopup=true
+		checkIf[counter][1]=true
+	}
+	else checkIf[counter][1]=false
+	counter++
+}
+checkFeatureObtainable=checkIf
+return checkIf
+}
+function getFeatureBuyableDisplay() {
+	let check=calcFeatureBuyable()
+	let display=``
+	for (i of check) {
+		if (i[1]==true) {
+			display += ` ${i[0]};`}
+	}
+	display+=`</span>`
+	return (display!=`</span>`)?(`<br><span style='color: red'>You can obtain a new feature at zones:`+display):``
 }
 function pointWithinBounds(point, topLeft, bottomRight) {
   if (point[0] < topLeft[0]) return false;
@@ -159,6 +291,12 @@ addLayer("ex", {
 		mult = new Decimal(1)
 		return mult
 	},
+	shouldNotify() {
+		let check=calcFeatureBuyable()
+			for (i of check) {
+				if (i[1]==true) return true;
+	}
+	},
 	gainExp() { // Calculate the exponent on main currency from bonuses
 		let m = new Decimal(0.3);
 		return m;
@@ -186,7 +324,7 @@ addLayer("ex", {
 		return x
 	},
 	yLimit() {
-				zone = player.ex.zone
+		zone = player.ex.zone
 		let x = new Decimal(0)
 		switch (zone) {
 			case "a":
@@ -566,7 +704,7 @@ addLayer("ex", {
 				["display-text", function () {
 					table = ""
 					if (player.ex.points.gte(1)) table = 'You can move in the zone by typing arrow keys and reset current position by clicking R button.<br>our exploration points are increasing your exploration area limits. For now, your area limits are: X axis - ' + format(tmp.ex.xLimit) + ", Y axis - " + format(tmp.ex.yLimit) + ".<br>By reaching some of positions in the area you can unlock new features.<br>New feature is at " + `(${tmp.ex.xGoal};${tmp.ex.yGoal})`
-						+ `. Current zone: ${player.ex.zone}`
+						+ `.`+getFeatureBuyableDisplay()+`<br>Current zone: ${player.ex.zone}`
 					return table
 				}],
 				"buyables",
@@ -660,6 +798,7 @@ addLayer("ex", {
 		if (player.mp.activeChallenge == 21) player.pm.essence = new Decimal(0)
 	},
 	update(diff) {
+		calcFeatureBuyable()
 		if (player.ex.zone == undefined) player.ex.zone = "a"
 		checkFeatureDot(dot = `(${player.ex.buyables[11]};${player.ex.buyables[12]})`)
 		if (hasMalware('m', 14)) checkPortalEnterDot(dot = `(${player.ex.buyables[11]};${player.ex.buyables[12]})`)

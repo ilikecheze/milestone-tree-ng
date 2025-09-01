@@ -85,7 +85,7 @@ function shouldNotify(layer){
 	}
 	for (id in tmp[layer].buyables){
 		if (isPlainObject(layers[layer].buyables[id])){
-			if (canBuyBuyable(layer,id)){
+			if (canBuyBuyable(layer,id)&&layers[layer].buyables[id].ifNotify){
 				return true
 			}
 		}
