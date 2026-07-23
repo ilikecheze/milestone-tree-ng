@@ -1940,7 +1940,7 @@ addLayer("m", {
 	},
 	milestone3Effect(){
 		if(player.ap.activeChallenge==21 || player.ap.activeChallenge==41 ||((player.mp.activeChallenge==21)&&(player.pm.activeChallenge==11)))return new Decimal(1);
-		var m=Decimal.log10(player.points.add(20)).pow(0.5);
+		var m=Decimal.log10(player.points.add(20)).pow(0.45);
 		if(player.m.best.gte(41))m=m.pow(1.003);
 		if(player.m.best.gte(46))m=m.pow(1.001);
 		if(player.m.best.gte(51))m=m.pow(1.00175);
@@ -2016,7 +2016,7 @@ addLayer("m", {
 			if(hasUpgrade("p",23)&&(inChallenge("pm",13))){
 				b=b.mul(player.p.points.add(1e50).log2().add(1).log2().div(player.m.best.gte(23)?28:30).add(1));
 			}
-		return Decimal.pow(b,m).pow(player.points.add(1),0.0000000000002);
+		return Decimal.pow(b,m)
 	},
 	milestone6Effect(){
 		var p=player.m.best;
