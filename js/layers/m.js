@@ -2016,7 +2016,7 @@ addLayer("m", {
 			if(hasUpgrade("p",23)&&(inChallenge("pm",13))){
 				b=b.mul(player.p.points.add(1e50).log2().add(1).log2().div(player.m.best.gte(23)?28:30).add(1));
 			}
-		return Decimal.pow(b,m).pow(player.points.add(1),0.03);
+		return Decimal.pow(b,m).pow(player.points.add(1),0.0000000000002);
 	},
 	milestone6Effect(){
 		var p=player.m.best;
