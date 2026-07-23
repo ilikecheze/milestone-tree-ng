@@ -129,7 +129,7 @@ addLayer("m", {
 			effect() {
 				let eff = new Decimal(1)
 				eff = player.points.add(1).pow(2).add(1).log10().add(1).log2().add(1).pow(4)
-				return softcap(eff, new Decimal(8), 0.5)
+				return eff
 			},
 			pseudoUnl() {return hasUpgrade("mp",21)},
 			pseudoReq() {return "To infect a milestone, get "+format(this.pseudoCost)+" points."},
