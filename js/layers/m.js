@@ -128,7 +128,7 @@ addLayer("m", {
 			},
 			effect() {
 				let eff = new Decimal(1)
-				eff=player.points.add(1).pow(0.1).add(1).log10().add(1).log2().add(1).pow(0.15)
+				eff=player.points.add(1).pow(3).add(1).log10().add(1).log2().add(1).pow(8)
 				return eff
 			},
 			pseudoUnl() {return hasUpgrade("mp",21)},
