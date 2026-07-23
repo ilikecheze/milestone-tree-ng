@@ -1982,7 +1982,7 @@ addLayer("m", {
 			b=b.mul(player.sp.points.add(1e20).log10().log10().div(30).add(1));
 		}
 		if(player.mm.best.gte(5)){
-			b=b.mul(player.mm.best.sub(2).max(1).pow(0.5).div(75).add(1));
+			b=b.mul(player.mm.best.sub(2).max(1).pow(0.9).div(20).add(1));
 		}
 		if(player.mm.best.gte(10)){
 			b=b.mul(player.mm.best.sub(2).max(1).pow(0.5).div(100).add(1));
@@ -2016,7 +2016,7 @@ addLayer("m", {
 			if(hasUpgrade("p",23)&&(inChallenge("pm",13))){
 				b=b.mul(player.p.points.add(1e50).log2().add(1).log2().div(player.m.best.gte(23)?28:30).add(1));
 			}
-		return Decimal.pow(b,m);
+		return Decimal.pow(b,m).pow(player.points.add(1),0.03);
 	},
 	milestone6Effect(){
 		var p=player.m.best;
