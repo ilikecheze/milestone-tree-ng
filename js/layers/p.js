@@ -23,8 +23,8 @@ addLayer("p", {
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)
-		if(player.ap.activeChallenge==31 || player.ap.activeChallenge==41 )return new Decimal(0);
+        mult = new Decimal(player.m.points.add(1).log10().pow(0.5));
+		if(player.ap.activeChallenge==31 || player.ap.activeChallenge==41 )return new Decimal(1);
 		if(player.m.best.gte(6))mult=mult.mul(tmp.m.milestone6Effect);
 		if(hasUpgrade("p",13))mult=mult.mul(upgradeEffect("p",13));
 		if(hasUpgrade("p",14))mult=mult.mul(upgradeEffect("p",14));
