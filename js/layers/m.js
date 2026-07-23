@@ -128,8 +128,8 @@ addLayer("m", {
 			},
 			effect() {
 				let eff = new Decimal(1)
-				eff=player.points.add(1).pow(3).add(1).log10().add(1).log2().add(1).pow(8)
-				return eff
+				eff = player.points.add(1).pow(2).add(1).log10().add(1).log2().add(1).pow(4)
+				return softcap(eff, new Decimal(8), 0.5)
 			},
 			pseudoUnl() {return hasUpgrade("mp",21)},
 			pseudoReq() {return "To infect a milestone, get "+format(this.pseudoCost)+" points."},
@@ -1940,7 +1940,7 @@ addLayer("m", {
 	},
 	milestone3Effect(){
 		if(player.ap.activeChallenge==21 || player.ap.activeChallenge==41 ||((player.mp.activeChallenge==21)&&(player.pm.activeChallenge==11)))return new Decimal(1);
-		var m=Decimal.log10(player.points.add(20)).pow(0.9);
+		var m=Decimal.log10(player.points.add(20)).pow(0.5);
 		if(player.m.best.gte(41))m=m.pow(1.003);
 		if(player.m.best.gte(46))m=m.pow(1.001);
 		if(player.m.best.gte(51))m=m.pow(1.00175);
