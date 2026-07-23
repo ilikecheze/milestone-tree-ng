@@ -50,9 +50,9 @@ addLayer("p", {
 	},
     gainExp() { // Calculate the exponent on main currency from bonuses
 		let m=layers.pb.effect();
-		if(hasUpgrade("t",12))m=m.mul(1.005);
-		if(hasUpgrade("t",32))m=m.mul(1.005);
-		if(player.t.activeChallenge==21||player.t.activeChallenge==31)m=m.mul(tmp.t.dilationEffect);
+		if(hasUpgrade("t",12))m=m.mul(3);
+		if(hasUpgrade("t",32))m=m.mul(6);
+		if(player.t.activeChallenge==21||player.t.activeChallenge==31)m=m.div(tmp.t.dilationEffect);
 		m=m.mul(layers.t.getSpecialEffect(21));
 		return m;
     },
